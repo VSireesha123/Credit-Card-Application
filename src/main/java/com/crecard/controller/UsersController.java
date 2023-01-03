@@ -41,10 +41,10 @@ public class UsersController {
 	*
 	*
 	*/
-	@PutMapping("/changepassword")
-	public User changePassword(@RequestBody User user, String np)
+	@PutMapping("/changepassword/{password}")
+	public User changePassword(@RequestBody User user, String password)
 	{
-	return userservice.changePassword(user,np);
+	return userservice.changePassword(user,password);
 	}
 
 }

@@ -87,6 +87,7 @@ public class UserServic implements IUserService {
 	{
 	user1.setPassword(password);
 	new_password=user1.getPassword();
+	password=new_password;
 	userrepository.save(user1);
 	return user1;
 	}
