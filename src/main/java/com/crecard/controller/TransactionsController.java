@@ -5,6 +5,7 @@ import com.crecard.model.Transaction;
 import com.crecard.model.Transaction;
 import com.crecard.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,27 +16,31 @@ public class TransactionsController {
     @Autowired
     TransactionService transactionService;
 
-    @GetMapping
-    public List<Transaction> index(){
+    @GetMapping("/getAllTransactions")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Transaction> getAllTransactions(){
         return transactionService.getAllTransactions();
     }
 
-    @PutMapping("/{id}")
-    public Transaction  update(@RequestBody Transaction transaction, @PathVariable("id") long id){
+    @PutMapping("/updateTransaction/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Transaction  updateTransaction(@RequestBody Transaction transaction, @PathVariable("id") long id){
         return transactionService.updateTransaction(id,transaction);
     }
 
-    @PostMapping
-    public Transaction create(@RequestBody Transaction transaction){
+    @PostMapping("/addTransaction")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Transaction addTransaction(@RequestBody Transaction transaction){
         return transactionService.addTransaction(transaction);
     }
 
-    @DeleteMapping("/{id}")
-    public Transaction delete(@PathVariable("id") long id){
+    @DeleteMapping("/removeTransaction/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Transaction removeTransaction(@PathVariable("id") long id){
         return transactionService.removeTransaction(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getTransactionDetails/{id}")
     public Transaction show(@PathVariable("id") long id){return  transactionService.getTransactionDetails(id);}
 
 }

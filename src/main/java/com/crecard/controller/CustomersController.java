@@ -4,6 +4,7 @@ import com.crecard.model.Address;
 import com.crecard.model.Customer;
 import com.crecard.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,26 +15,32 @@ public class CustomersController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping
+    @GetMapping("/getAllCustomers")
+    @ResponseStatus(HttpStatus.OK)
     public List<Customer> index(){
         return customerService.getAllCustomers();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateCustomer/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Customer  update(@RequestBody Customer customer, @PathVariable("id") long id){
         return customerService.updateCustomer(id,customer);
     }
 
-    @PostMapping
+    @PostMapping("/addCustomer")
+    @ResponseStatus(HttpStatus.CREATED)
     public Customer create(@RequestBody Customer customer){
         return customerService.addCustomer(customer);
     }
 
-    @DeleteMapping("/{id}")
-    public Customer delete(@PathVariable("id") long id){
-        return customerService.removeCustomer(id);
+    @DeleteMapping("/removeCustomer/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Customer removeCustomer(@PathVariable("id") long id){
+        Customer customer = customerService.removeCustomer(id);
+        return customer;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getCustomer/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Customer show(@PathVariable("id") long id){return  customerService.getCustomer(id);}
 }

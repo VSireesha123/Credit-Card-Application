@@ -1,8 +1,9 @@
 package com.crecard.service;
 
+import com.crecard.execption.CustomException;
 import com.crecard.interfaces.IPaymentService;
 import com.crecard.model.Payment;
-import com.crecard.repository.PaymentRepository;
+import com.crecard.repository.IPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class PaymentService implements IPaymentService {
     @Autowired
-    PaymentRepository paymentRepository;
+    IPaymentRepository paymentRepository;
 
     @Override
     public Payment addPayment(Payment payment) {
@@ -32,7 +33,7 @@ public class PaymentService implements IPaymentService {
     @Override
     public Payment getPayment(long id) {
         Optional<Payment> payment= paymentRepository.findById(id);
-        return payment.orElse(null);
+        return payment.orElseThrow(()-> new CustomException("Payment Not Exists with id :"+id));
     }
 
     @Override

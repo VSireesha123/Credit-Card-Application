@@ -1,8 +1,9 @@
 package com.crecard.service;
 
+import com.crecard.execption.CustomException;
 import com.crecard.interfaces.ICreditCardService;
 import com.crecard.model.CreditCard;
-import com.crecard.repository.CreditCardRepository;
+import com.crecard.repository.ICreditCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class CreditCardService implements ICreditCardService {
     @Autowired
-    CreditCardRepository creditCardRepository;
+    ICreditCardRepository creditCardRepository;
 
 
     @Override
@@ -22,7 +23,9 @@ public class CreditCardService implements ICreditCardService {
 
     @Override
     public CreditCard removeCreditCard(long cardId) {
-        return creditCardRepository.deleteCreditCardById(cardId);
+        CreditCard card =  getCreditCard(cardId);
+        creditCardRepository.deleteCreditCardById(cardId);
+        return card;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class CreditCardService implements ICreditCardService {
     @Override
     public CreditCard getCreditCard(long cardId) {
         Optional<CreditCard> card = creditCardRepository.findById(cardId);
-        return card.orElse(null);
+        return card.orElseThrow(()-> new CustomException("CreditCard Not Exists with id :"+cardId));
     }
 
     @Override

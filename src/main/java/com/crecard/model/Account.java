@@ -10,7 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
+
 @Entity
 @Table(name = "account")
 @EqualsAndHashCode
@@ -28,4 +28,43 @@ public class Account {
     @JsonIgnore
     private Customer customer;
 
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment,Long> {
+public interface IPaymentRepository extends JpaRepository<Payment,Long> {
     Payment deletePaymentByPaymentId(long id);
 
     List<Payment> getPaymentsByCreditCardId(long id);

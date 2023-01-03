@@ -1,14 +1,13 @@
 package com.crecard.service;
 
+import com.crecard.execption.CustomException;
 import com.crecard.interfaces.IStatementService;
 import com.crecard.model.Statement;
-import com.crecard.repository.StatementRepository;
+import com.crecard.repository.IStatementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 public class StatementService implements IStatementService {
 
     @Autowired
-    StatementRepository statementRepository;
+    IStatementRepository statementRepository;
     @Override
     public Statement addStatement(Statement statement) {
         return statementRepository.save(statement);
@@ -24,7 +23,9 @@ public class StatementService implements IStatementService {
 
     @Override
     public Statement removeStatement(long id) {
-        return statementRepository.deleteStatementByStatementId(id);
+        Statement statement =getStatement(id);
+        statementRepository.deleteStatementByStatementId(id);
+        return  statement;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class StatementService implements IStatementService {
     @Override
     public Statement getStatement(long id) {
         Optional<Statement> statement = statementRepository.findById(id);
-        return statement.orElse(null);
+        return statement.orElseThrow(()-> new CustomException("Statement Not Exists with id :"+id));
     }
 
     @Override
@@ -44,16 +45,14 @@ public class StatementService implements IStatementService {
     }
 
     @Override
-    public List<Statement> getBilledStatement(long customerId) {
-        Statement statement = statementRepository.findFirstByCustomerId(customerId);
-        return statementRepository.getBilledStatements(statement.getBillingDate());
+    public List<Statement> getBilledStatement() {
+        return statementRepository.getBilledStatements(LocalDate.now());
     }
 
 
     @Override
-    public List<Statement> getUnBilledStatement(long id){
-        Statement statement = statementRepository.findFirstByCustomerId(id);
-        return statementRepository.getUnBilledStatements(statement.getBillingDate());
+    public List<Statement> getUnBilledStatement(){
+        return statementRepository.getUnBilledStatements(LocalDate.now());
     }
 
     @Override

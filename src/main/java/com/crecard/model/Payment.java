@@ -29,6 +29,44 @@ public class Payment {
     @JsonIgnore
     private CreditCard creditCard;
 
+    public long getPaymentId() {
+        return paymentId;
+    }
 
+    public void setPaymentId(long paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public double getAmountDue() {
+        return amountDue;
+    }
+
+    public void setAmountDue(double amountDue) {
+        this.amountDue = amountDue;
+    }
+
+    public long getCreditCardId() {
+        return creditCardId;
+    }
+
+    public void setCreditCardId(long creditCardId) {
+        this.creditCardId = creditCardId;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
 }
 

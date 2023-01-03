@@ -1,8 +1,10 @@
 package com.crecard.service;
 
+import com.crecard.execption.CustomException;
+import com.crecard.execption.CustomerUserIdNotFoundException;
 import com.crecard.interfaces.IAddressService;
 import com.crecard.model.Address;
-import com.crecard.repository.AddressRepository;
+import com.crecard.repository.IAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import java.util.List;
 public class AddressService implements IAddressService {
 
     @Autowired
-    AddressRepository addressRepository;
+    IAddressRepository addressRepository;
     @Override
     public Address addAddress(Address address) {
         return addressRepository.save(address);
@@ -32,12 +34,14 @@ public class AddressService implements IAddressService {
 
     @Override
     public Address removeAddress(long id) {
-        return addressRepository.deleteAddressById(id);
+        Address address= getAddress(id);
+        addressRepository.deleteAddressById(id);
+        return address;
     }
 
     @Override
     public Address getAddress(long id) {
-        return addressRepository.findById(id).orElse(null);
+        return addressRepository.findById(id).orElseThrow(() ->  new CustomException("No Address found with id:"+id));
     }
 
     @Override

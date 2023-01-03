@@ -3,6 +3,7 @@ package com.crecard.controller;
 import com.crecard.model.Account;
 import com.crecard.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -13,28 +14,33 @@ public class AccountsController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping
-    public List<Account> index(){
+    @GetMapping("/getAllAccounts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAllAccounts(){
         return accountService.getAllAccounts();
     }
 
-    @PutMapping("/{id}")
-    public Account  update(@RequestBody Account account,@PathVariable("id") long id){
+    @PutMapping("/updateAccount/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Account  updateAccount(@RequestBody Account account,@PathVariable("id") long id){
         return accountService.updateAccount(id,account);
     }
 
-    @PostMapping
-    public Account create(@RequestBody Account account){
+    @PostMapping("/addAccount")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account addAccount(@RequestBody Account account){
         return accountService.addAccount(account);
     }
 
-    @DeleteMapping("/{id}")
-    public Account delete(@PathVariable("id") long id){
+    @DeleteMapping("/removeAccount/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Account removeAccount(@PathVariable("id") long id){
         return accountService.removeAccount(id);
     }
 
-    @GetMapping("/{id}")
-    public Account show(@PathVariable("id") long id){return  accountService.getAccount(id);}
+    @GetMapping("getAccount/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Account getAccount(@PathVariable("id") long id){return  accountService.getAccount(id);}
 
 
 }

@@ -4,8 +4,11 @@ import com.crecard.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CustomerRepository extends JpaRepository<Customer,Long> {
+import javax.transaction.Transactional;
 
-    Customer deleteByCustomerId(long id);
+@Repository
+@Transactional
+public interface ICustomerRepository extends JpaRepository<Customer,Long> {
+
+    void deleteByCustomerId(long id);
 }
