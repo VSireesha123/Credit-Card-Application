@@ -4,6 +4,7 @@ import com.crecard.model.Account;
 import com.crecard.model.Address;
 import com.crecard.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +15,30 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-    @GetMapping
-    public List<Address> index(){
+    @GetMapping("/getAllAddress")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Address> getAllAddress(){
         return addressService.getAllAddress();
     }
 
-    @PutMapping("/{id}")
-    public Address  update(@RequestBody Address address, @PathVariable("id") long id){
+    @PutMapping("/updateAddress/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Address  updateAddress(@RequestBody Address address, @PathVariable("id") long id){
         return addressService.updateAddress(id,address);
     }
 
-    @PostMapping
-    public Address create(@RequestBody Address address){
+    @PostMapping("/addAddress")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Address addAddress(@RequestBody Address address){
         return addressService.addAddress(address);
     }
 
-    @DeleteMapping("/{id}")
-    public Address delete(@PathVariable("id") long id){
+    @DeleteMapping("/removeAddress/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Address removeAddress(@PathVariable("id") long id){
         return addressService.removeAddress(id);
     }
-    @GetMapping("/{id}")
-    public Address show(@PathVariable("id") long id){return  addressService.getAddress(id);}
+    @GetMapping("/getAddress/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Address getAddress(@PathVariable("id") long id){return  addressService.getAddress(id);}
 }

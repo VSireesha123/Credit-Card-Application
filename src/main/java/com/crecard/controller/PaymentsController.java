@@ -5,6 +5,7 @@ import com.crecard.model.Address;
 import com.crecard.model.Payment;
 import com.crecard.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,24 +18,29 @@ public class PaymentsController {
     PaymentService paymentService;
 
 
-    @PutMapping("/{id}")
-    public Payment  update(@RequestBody Payment payment, @PathVariable("id") long id){
+    @PutMapping("/updatePayment/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Payment  updatePayment(@RequestBody Payment payment, @PathVariable("id") long id){
         return paymentService.updatePayment(id,payment);
     }
 
-    @PostMapping
-    public Payment create(@RequestBody Payment payment){
+    @PostMapping("/addPayment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Payment addPayment(@RequestBody Payment payment){
         return paymentService.addPayment(payment);
     }
 
-    @DeleteMapping("/{id}")
-    public Payment delete(@PathVariable("id") long id){
+    @DeleteMapping("/removePayment/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Payment removePayment(@PathVariable("id") long id){
         return paymentService.removePayment(id);
     }
-    @GetMapping("/{id}")
-    public Payment show(@PathVariable("id") long id){return  paymentService.getPayment(id);}
+    @GetMapping("/getPayment/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Payment getPayment(@PathVariable("id") long id){return  paymentService.getPayment(id);}
 
-    @GetMapping("/credit_card/{id}")
+    @GetMapping("/getCreditCardPayments/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public List<Payment> getCreditCardPayments(@PathVariable("id") long id){
         return paymentService.getCreditCardPayments(id);
     }

@@ -4,7 +4,10 @@ import com.crecard.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction,Long> {
-    Transaction deleteByTranId(long id);
+@Transactional
+public interface ITransactionRepository extends JpaRepository<Transaction,Long> {
+    void deleteByTranId(long id);
 }

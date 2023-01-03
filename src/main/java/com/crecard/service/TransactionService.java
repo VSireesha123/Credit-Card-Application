@@ -1,8 +1,9 @@
 package com.crecard.service;
 
+import com.crecard.execption.CustomException;
 import com.crecard.interfaces.ITransactionService;
 import com.crecard.model.Transaction;
-import com.crecard.repository.TransactionRepository;
+import com.crecard.repository.ITransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class TransactionService implements ITransactionService {
     @Autowired
-    TransactionRepository transactionRepository;
+    ITransactionRepository transactionRepository;
     @Override
     public Transaction addTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
@@ -20,7 +21,9 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public Transaction removeTransaction(long id) {
-        return transactionRepository.deleteByTranId(id);
+        Transaction transaction=getTransactionDetails(id);
+         transactionRepository.deleteByTranId(id);
+        return transaction;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class TransactionService implements ITransactionService {
     @Override
     public Transaction getTransactionDetails(long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
-        return  transaction.orElse(null);
+        return  transaction.orElseThrow(()-> new CustomException("Transaction Not Exists with id :"+id));
     }
 
     @Override

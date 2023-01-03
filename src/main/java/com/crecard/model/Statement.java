@@ -10,7 +10,6 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @Entity
 @Table(name = "statement")
 public class Statement {
@@ -30,4 +29,52 @@ public class Statement {
     @ToString.Exclude
     @JsonIgnore
     private Customer customer;
+
+    public long getStatementId() {
+        return statementId;
+    }
+
+    public void setStatementId(long statementId) {
+        this.statementId = statementId;
+    }
+
+    public double getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(double dueAmount) {
+        this.dueAmount = dueAmount;
+    }
+
+    public LocalDate getBillingDate() {
+        return billingDate;
+    }
+
+    public void setBillingDate(LocalDate billingDate) {
+        this.billingDate = billingDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
